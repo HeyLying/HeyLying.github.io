@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-lying.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-lying.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-lying.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微信,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基础知识理清公众号配置的域名 业务域名设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。 网页授权域名指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。 JS接口安全域名该域名下请求的地址能使用微信的js接口。">
+<meta name="keywords" content="微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信公众号开发记录">
+<meta property="og:url" content="http://heylying.github.io/2019/03/11/微信公众号开发记录/index.html">
+<meta property="og:site_name" content="我在WEB前后左右端">
+<meta property="og:description" content="基础知识理清公众号配置的域名 业务域名设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。 网页授权域名指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。 JS接口安全域名该域名下请求的地址能使用微信的js接口。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://heylying.github.io/images/wx-tempqrcode.png">
+<meta property="og:updated_time" content="2019-03-29T09:48:57.054Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信公众号开发记录">
+<meta name="twitter:description" content="基础知识理清公众号配置的域名 业务域名设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。 网页授权域名指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。 JS接口安全域名该域名下请求的地址能使用微信的js接口。">
+<meta name="twitter:image" content="http://heylying.github.io/images/wx-tempqrcode.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://heylying.github.io/2019/03/11/微信公众号开发记录/">
+
+
+
+
+
+  <title>微信公众号开发记录 | 我在WEB前后左右端</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我在WEB前后左右端</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">你今天学习了吗？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://heylying.github.io/2019/03/11/微信公众号开发记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lying">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在WEB前后左右端">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信公众号开发记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T07:06:10+08:00">
+                2019-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="理清公众号配置的域名"><a href="#理清公众号配置的域名" class="headerlink" title="理清公众号配置的域名"></a>理清公众号配置的域名</h3><ul>
+<li>业务域名<br>设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。</li>
+<li>网页授权域名<br>指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。</li>
+<li>JS接口安全域名<br>该域名下请求的地址能使用微信的js接口。<a id="more"></a>
+</li>
+</ul>
+<h3 id="比较网页授权中的access-token和基础支持中的access-token"><a href="#比较网页授权中的access-token和基础支持中的access-token" class="headerlink" title="比较网页授权中的access_token和基础支持中的access_token"></a>比较网页授权中的access_token和基础支持中的access_token</h3><p>开发文档提到网页授权中的access_token和基础支持中的access_token不同，但是具体有哪些不同，并没有说清楚。</p>
+<ul>
+<li>网页授权中的access_token，时间很短，最好是每次都重新获取；</li>
+<li>网页授权中的access_token，不能复用；</li>
+<li>网页授权中的access_token，调用次数不限。</li>
+</ul>
+<h3 id="梳理微信认证流程（简称三次握手）"><a href="#梳理微信认证流程（简称三次握手）" class="headerlink" title="梳理微信认证流程（简称三次握手）"></a>梳理微信认证流程（简称三次握手）</h3><ol>
+<li>用户同意授权，获取code；</li>
+<li>通过code换取网页授权access_token，用户openId等信息；</li>
+<li>通过access_token和用户的openId获取该用户的用户信息。</li>
+</ol>
+<h3 id="调整公众号SSL安全策略"><a href="#调整公众号SSL安全策略" class="headerlink" title="调整公众号SSL安全策略"></a>调整公众号SSL安全策略</h3><p>微信团队发布重要安全策略调整，将关闭掉SSLv2、SSLv3版本支持，不再支持部分使用SSLv2、SSLv3或更低版本的客户端调用。<br>在PHP代码中增加一句：curl_setopt($ch, CURLOPT_SSLVERSION, 1);</p>
+<blockquote>
+<p>HTTPS协议 ＝ HTTP + SSL/TLS<br>TLS ＝ SSL升级版<br>SSL：协议是HTTP的补充，使用加密等方法让HTTP更安全，版本为1、2、3。<br>TLS：基于SSL v3的升级版协议，目前版本发展为1.0、1.1、1.2、1.3。<br>目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。</p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&amp;key=1414562353&amp;version=11&amp;lang=zh_CN" target="_blank" rel="noopener">https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&amp;key=1414562353&amp;version=11&amp;lang=zh_CN</a></p>
+<h2 id="JSSDK"><a href="#JSSDK" class="headerlink" title="JSSDK"></a>JSSDK</h2><h3 id="Sea-js与JSSDK的不兼容"><a href="#Sea-js与JSSDK的不兼容" class="headerlink" title="Sea.js与JSSDK的不兼容"></a>Sea.js与JSSDK的不兼容</h3><p>问题：<code>require(&#39;jweixin-1.0.0&#39;)</code> 报错 <code>wx is not undefined</code><br>解决：将微信 JSSDK 挪到 sea.js 之前，就正常了。查看 jwexin-1.0.0.js 源码发现，如果有了 <code>define()</code> 这个全局方法，微信 JSSDK 是当做 <code>require()</code> 的结果返回，不再生成 <code>window.wx</code> 这个对象。<br>以下文章指出改用 seajs.use()，但其实这并不符合规范，<code>use</code> 理论上只用于加载启动，不应该出现在 <code>define</code> 中的模块代码里。在模块代码里需要异步加载其他模块时，推荐使用 <code>require.async</code> 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require.async(&apos;http://res.wx.qq.com/open/js/jweixin-1.0.0.js&apos;,function(wx)&#123;</span><br><span class="line">    ....</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://www.jianshu.com/p/4700de120d53" target="_blank" rel="noopener">http://www.jianshu.com/p/4700de120d53</a></p>
+<h3 id="微信自定义分享"><a href="#微信自定义分享" class="headerlink" title="微信自定义分享"></a>微信自定义分享</h3><ul>
+<li>JSSDK自定义分享：页面一旦分享，微信客户端会在你的链接末尾加入其它参数，如果不是动态获取当前链接，将导致分享后的页面签名失败。</li>
+<li>移动端页面分享到微信的方案：<a href="http://feizhaojun.com/?p=761" target="_blank" rel="noopener">http://feizhaojun.com/?p=761</a></li>
+</ul>
+<h3 id="录音功能"><a href="#录音功能" class="headerlink" title="录音功能"></a>录音功能</h3><p>要考虑误操作导致录音无效的场景（如：反复点击、误触摸）。<br><a href="https://www.cnblogs.com/liujunyang/p/4962423.html" target="_blank" rel="noopener">https://www.cnblogs.com/liujunyang/p/4962423.html</a></p>
+<h2 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h2><h3 id="公众号推送单图文跳转外部链接"><a href="#公众号推送单图文跳转外部链接" class="headerlink" title="公众号推送单图文跳转外部链接"></a>公众号推送单图文跳转外部链接</h3><p>2014年11月底前的开通微信支付的公众号，有商品消息功能，可以实现该需求。<br><a href="http://www.henkuai.com/thread-7990-1-1.html" target="_blank" rel="noopener">http://www.henkuai.com/thread-7990-1-1.html</a><br>另外参考使用以下方法：</p>
+<ul>
+<li>群发</li>
+<li>客服接口</li>
+<li>关注时回复（被动回复图文消息）<br><a href="https://www.zhihu.com/question/22032291" target="_blank" rel="noopener">https://www.zhihu.com/question/22032291</a></li>
+</ul>
+<h3 id="点开文章查看答案的效果"><a href="#点开文章查看答案的效果" class="headerlink" title="点开文章查看答案的效果"></a>点开文章查看答案的效果</h3><ul>
+<li>利用动画完成：<br><a href="http://www.songshuyule.com/wenzhang/BJaBQd" target="_blank" rel="noopener">http://www.songshuyule.com/wenzhang/BJaBQd</a></li>
+<li>可以查看HTML源码的编辑器<br>i排版：<a href="http://ipaiban.com/bianji.jsp" target="_blank" rel="noopener">http://ipaiban.com/bianji.jsp</a></li>
+</ul>
+<h3 id="查看公众号历史消息功能的链接"><a href="#查看公众号历史消息功能的链接" class="headerlink" title="查看公众号历史消息功能的链接"></a>查看公众号历史消息功能的链接</h3><p>点开现有的历史消息功能，复制链接就好了…………就是这么简单。</p>
+<h2 id="使用细节"><a href="#使用细节" class="headerlink" title="使用细节"></a>使用细节</h2><h3 id="公众号手机端实时阅读数与后台图文分析的数据有较大出入"><a href="#公众号手机端实时阅读数与后台图文分析的数据有较大出入" class="headerlink" title="公众号手机端实时阅读数与后台图文分析的数据有较大出入"></a>公众号手机端实时阅读数与后台图文分析的数据有较大出入</h3><p>咨询过客服，原因有以下：</p>
+<ul>
+<li>统计时间差</li>
+<li>阅读来源不同</li>
+<li>数据过滤规则不一致</li>
+</ul>
+<h3 id="公众平台-用户管理-搜索"><a href="#公众平台-用户管理-搜索" class="headerlink" title="公众平台-用户管理-搜索"></a>公众平台-用户管理-搜索</h3><p>最新关注的用户无法在搜索框搜到，猜测是搜索列表有缓存（网上说是两天），旧的用户可以在列表中搜索得到。</p>
+<h3 id="微信群自动回复等机器人实现"><a href="#微信群自动回复等机器人实现" class="headerlink" title="微信群自动回复等机器人实现"></a>微信群自动回复等机器人实现</h3><p>使用了第三方软件，即往群里投机器人，设置好规则后他会自动发言。<br>自我理解：软件拿到我们的微信账号，替我们发言。因为我们不能在机器人上线期间同时上线，否则机器人会掉线。</p>
+<h2 id="开发细节"><a href="#开发细节" class="headerlink" title="开发细节"></a>开发细节</h2><h3 id="页面缓存"><a href="#页面缓存" class="headerlink" title="页面缓存"></a>页面缓存</h3><ul>
+<li>在资源路径的URL添加参数</li>
+<li>借助gulp自动添加</li>
+<li>Android微信的缓存清理：<a href="http://debugx5.qq.com/" target="_blank" rel="noopener">http://debugx5.qq.com/</a></li>
+</ul>
+<h3 id="过期的临时二维码"><a href="#过期的临时二维码" class="headerlink" title="过期的临时二维码"></a>过期的临时二维码</h3><p>过期后，临时二维码将直接无法扫出东西。<br><img src="/images/wx-tempqrcode.png" alt> </p>
+<h3 id="微信二维码的识别原理"><a href="#微信二维码的识别原理" class="headerlink" title="微信二维码的识别原理"></a>微信二维码的识别原理</h3><p>长按识别二维码，会先立刻截屏，启动二维码识别算法。<br><a href="https://mp.weixin.qq.com/s?__biz=NzA3OTQ2OTgw&amp;mid=205918916&amp;idx=1&amp;sn=d729ef70ea1e7fc50e649352a63a2564&amp;scene=1&amp;key=c76941211a49ab586ba4831f2f6fa42fbb2525460003fa8e19bc205b9b25facbf60da78977da071ddbc41a5be6a7b9fa&amp;ascene=0&amp;uin=NTE3ODg0NjE1&amp;devicetype=iMac%20MacBookPro12,1%20OSX%20OSX%2010.10.3%20build%2814D136%29&amp;version=11020012&amp;pass_ticket=WPa8XnvIzBrBOA6RHy2RMECcrsuN2QiksK8Y1Z/D3Odk49uIsXOex7EV2NXN9m5X" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=NzA3OTQ2OTgw&amp;mid=205918916&amp;idx=1&amp;sn=d729ef70ea1e7fc50e649352a63a2564&amp;scene=1&amp;key=c76941211a49ab586ba4831f2f6fa42fbb2525460003fa8e19bc205b9b25facbf60da78977da071ddbc41a5be6a7b9fa&amp;ascene=0&amp;uin=NTE3ODg0NjE1&amp;devicetype=iMac%20MacBookPro12,1%20OSX%20OSX%2010.10.3%20build%2814D136%29&amp;version=11020012&amp;pass_ticket=WPa8XnvIzBrBOA6RHy2RMECcrsuN2QiksK8Y1Z/D3Odk49uIsXOex7EV2NXN9m5X</a></p>
+<h2 id="接口细节"><a href="#接口细节" class="headerlink" title="接口细节"></a>接口细节</h2><h3 id="客服功能"><a href="#客服功能" class="headerlink" title="客服功能"></a>客服功能</h3><p>注意点：用户被客服接入以后，客服关闭会话以前，处于会话过程中时，用户发送的消息均会被直接转发至客服系统。当会话超过30分钟，则会自动关闭客服功能，所有消息回到我们服务器上来接收。</p>
+<h3 id="消息管理"><a href="#消息管理" class="headerlink" title="消息管理"></a>消息管理</h3><p>被动回复</p>
+<ul>
+<li>回复图文消息<br>图片：url，即可以使用跳链</li>
+<li>回复图片消息<br>图片：media_id</li>
+</ul>
+<h3 id="素材管理"><a href="#素材管理" class="headerlink" title="素材管理"></a>素材管理</h3><p>选择的图片位置必须为本地图片，不能使用在线URL。</p>
+<h3 id="消息管理-1"><a href="#消息管理-1" class="headerlink" title="消息管理"></a>消息管理</h3><p>群发消息<br>上传图文所需的缩略图素材：用的是临时素材的media_id，type=image（据说thumb_media_id也行，type=thumb）。</p>
+<h3 id="批量分组打标签"><a href="#批量分组打标签" class="headerlink" title="批量分组打标签"></a>批量分组打标签</h3><ul>
+<li>当其中一个 openid 无效时，报错40003，其他 openid 不能正常完成；</li>
+<li>当其中一个 openid 未关注关注公众号时，未报错，其他 openid 正常完成；</li>
+<li>当其中一个 openid 已存在该标签时，未报错，其他 openid 正常完成。</li>
+</ul>
+<h2 id="小程序"><a href="#小程序" class="headerlink" title="小程序"></a>小程序</h2><h3 id="消息的接收和发送"><a href="#消息的接收和发送" class="headerlink" title="消息的接收和发送"></a>消息的接收和发送</h3><p>使用发送客服消息接口进行回复消息，而不是公众号的发送被动响应消息，它没有被动消息模式，除了转入网页版微信客服系统。</p>
+<h3 id="客服消息"><a href="#客服消息" class="headerlink" title="客服消息"></a>客服消息</h3><p>图文：thumb_url 是在线 URL 就行，无需 meadia 的获取。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信/" rel="tag"># 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/08/搭建hexo博客/" rel="next" title="搭建hexo博客">
+                <i class="fa fa-chevron-left"></i> 搭建hexo博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lying</p>
+              <p class="site-description motion-element" itemprop="description">博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理清公众号配置的域名"><span class="nav-number">1.1.</span> <span class="nav-text">理清公众号配置的域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较网页授权中的access-token和基础支持中的access-token"><span class="nav-number">1.2.</span> <span class="nav-text">比较网页授权中的access_token和基础支持中的access_token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梳理微信认证流程（简称三次握手）"><span class="nav-number">1.3.</span> <span class="nav-text">梳理微信认证流程（简称三次握手）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整公众号SSL安全策略"><span class="nav-number">1.4.</span> <span class="nav-text">调整公众号SSL安全策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSSDK"><span class="nav-number">2.</span> <span class="nav-text">JSSDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sea-js与JSSDK的不兼容"><span class="nav-number">2.1.</span> <span class="nav-text">Sea.js与JSSDK的不兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信自定义分享"><span class="nav-number">2.2.</span> <span class="nav-text">微信自定义分享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#录音功能"><span class="nav-number">2.3.</span> <span class="nav-text">录音功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能实现"><span class="nav-number">3.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公众号推送单图文跳转外部链接"><span class="nav-number">3.1.</span> <span class="nav-text">公众号推送单图文跳转外部链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点开文章查看答案的效果"><span class="nav-number">3.2.</span> <span class="nav-text">点开文章查看答案的效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看公众号历史消息功能的链接"><span class="nav-number">3.3.</span> <span class="nav-text">查看公众号历史消息功能的链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用细节"><span class="nav-number">4.</span> <span class="nav-text">使用细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公众号手机端实时阅读数与后台图文分析的数据有较大出入"><span class="nav-number">4.1.</span> <span class="nav-text">公众号手机端实时阅读数与后台图文分析的数据有较大出入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公众平台-用户管理-搜索"><span class="nav-number">4.2.</span> <span class="nav-text">公众平台-用户管理-搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信群自动回复等机器人实现"><span class="nav-number">4.3.</span> <span class="nav-text">微信群自动回复等机器人实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发细节"><span class="nav-number">5.</span> <span class="nav-text">开发细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面缓存"><span class="nav-number">5.1.</span> <span class="nav-text">页面缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过期的临时二维码"><span class="nav-number">5.2.</span> <span class="nav-text">过期的临时二维码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信二维码的识别原理"><span class="nav-number">5.3.</span> <span class="nav-text">微信二维码的识别原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口细节"><span class="nav-number">6.</span> <span class="nav-text">接口细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客服功能"><span class="nav-number">6.1.</span> <span class="nav-text">客服功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息管理"><span class="nav-number">6.2.</span> <span class="nav-text">消息管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#素材管理"><span class="nav-number">6.3.</span> <span class="nav-text">素材管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息管理-1"><span class="nav-number">6.4.</span> <span class="nav-text">消息管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量分组打标签"><span class="nav-number">6.5.</span> <span class="nav-text">批量分组打标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小程序"><span class="nav-number">7.</span> <span class="nav-text">小程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息的接收和发送"><span class="nav-number">7.1.</span> <span class="nav-text">消息的接收和发送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客服消息"><span class="nav-number">7.2.</span> <span class="nav-text">客服消息</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lying</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
