@@ -44,7 +44,7 @@ $ hexo server
 ![](https://i.imgur.com/G91wiJ6.png)
 
 部署到 Github 的原理
-（1）Github账号.github.io 这个仓库的 master 里的 html 文件可以直接通过网址 Github账号.github.io 访问。
+（1）xxx.github.io 这个仓库的 master 里的 html 文件可以直接通过网址 Github账号.github.io 访问。
 （2）`hexo -g` 会生成一个静态网站，可以直接访问。
 
 ### 2. 配置`/_config.yml`
@@ -80,7 +80,7 @@ Hexo 默认的主题不太好看。没有好看的主题，就像去健身不先
 - ……
 
 主题的选择主要考虑两点：一是符合自己的审美，二是项目维护度高，随之扩展性也强。
-综上所述，不免其俗，我和最广大的网友们选择一致，用NexT。这个主题做得确实好。甚至它还有自己的[官网](https://theme-next.iissnan.com/)。
+综上所述，不免其俗，我和最广大的网友们选择一致，用 NexT 。这个主题做得确实好。甚至它还有自己的[官网](https://theme-next.iissnan.com/)。
 这个主题提供了非常多的功能，有兴趣对博客功能进行扩展的欢迎到官网文档查看，文档写得很详细。
 
 ## 写作
@@ -152,7 +152,7 @@ npm install
 现在，hexo 源项目即可在家中电脑运行起来了（localhost:4000），可以进行如上常规步骤，写作、生成和部署。
 
 ### TIPS
-在 /_config.yml 中 hexo 部署生成后文件指定master分支。
+在 `/_config.yml` 中 hexo 部署生成后文件指定master分支。
 ```
 deploy:
   type: git
