@@ -1,20 +1,20 @@
 ---
 title: 如何为VS Code开发一个插件
 date: 2019-12-15 22:55:21
-tags: 软件
+categories: 工具
 ---
 
 VS Code是一个出色的代码编辑器，但真正使它强大的是它可用的扩展（也称为插件）。
 
-首先要说明一下，可能有些人喜欢用 Webstorm/Sublime等其他编辑器或IDE，甚至我之前用过一阵Phpstorm，都没关系，没用过VS Code也肯定知道它，认识下VS Code插件，知道VS Code的插件怎么开发，依旧可以当作扩展自己技术见识。
+首先要说明一下，可能有些人喜欢用 Webstorm/Sublime等其他编辑器或IDE，甚至我之前写PHP业务，用过一阵Phpstorm——都没关系，没用过VS Code的人也肯定知道它。认识下VS Code插件，知道VS Code的插件怎么开发，依旧可以当作扩展自己技术见识。
 
 VS Code作为一个轻量级代码编辑器，和Sublime类似，本身功能并不全面，靠安装外部插件来增强开发体验。
 
-于是趁项目组需要一次分享会，我特此花了两个周末，参考网上教程，将VS Code的插件做了一番学习。
+于是趁项目组轮到我开展一次分享会，我特此花了两个周末，参考网上教程，将VS Code的插件做了一番学习。
 
 <!-- more -->
 
-我主要阅读以下博客内容，这是我找到的为数不多较为全面而通俗的讲解，特此感谢！
+我主要是阅读以下博客内容进行学习。这是我找到的为数不多对VS Code插件开发较为全面而通俗的讲解，特此感谢作者！
 
 https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html
 
@@ -49,13 +49,13 @@ https://marketplace.visualstudio.com/items?itemName=C-TEAM.thief-book
 - Markdown增强
 - 其他（状态栏修改、通知提示……）
 
-这里有一点需要注意，开发出来的插件没法对vscode本身界面作大篇幅的改动，只能顶部加一点，或侧边加一点。也是引导扩展开发者保持UI的简洁和视觉风格的统一。
+这里有一点需要注意，开发出来的插件没法对VS Ccode本身界面作大篇幅的改动，只能顶部加一点，或侧边加一点。目的是引导扩展开发者保持UI的简洁和视觉风格的统一。毕竟用户的审美千种万种，太不可靠。
 
 
 
 ### 学习目录
 
-![](/images/vscode_directory.png) 
+![](/images/7.png) 
 
 
 
@@ -67,6 +67,8 @@ yo code
 ```
 
 运行yo命令，yeoman就会生成generator-code脚手架里配置的内容，它配了什么呢，里边是一个插件规范的目录结构，并且已经实现弹一个helloworld弹窗的功能。
+
+>  yo来自脚手架Yeoman，一句话概括它的主要功能：帮我们快速建立一个项目的基础目录结构和构建任务。
 
 按下Ctrl+Shift+P，输入HelloWorld运行插件。
 https://code.visualstudio.com/api/get-started/your-first-extension
@@ -92,7 +94,7 @@ extension.js：插件入口文件
 https://code.visualstudio.com/api/references/extension-manifest
 2. activationEvents 配置插件的激活事件
 [示例] onLanguage:javascript：只要打开了js文件，插件就会被激活。
-[示例] 配置为*：只要一启动vscode，插件就会被自动激活。官方不推荐。
+[示例] 配置为*：只要一启动VS Ccode，插件就会被自动激活。官方不推荐。
 https://code.visualstudio.com/api/references/activation-events
 3. contributes 扩展VS Code的功能
 https://code.visualstudio.com/api/references/contribution-points
@@ -112,7 +114,25 @@ https://code.visualstudio.com/api/references/contribution-points
 
 ### 四、菜单
 
+```javascript
+// package.json 
+"menus": {
+      "editor/context": [
+        {
+          "when": "editorFocus && resourceLangId == javascript",
+          "command": "extension.menuShow",
+          "group": "z_commands"
+        }
+      ],
+      //...
+ }
+```
+
+
+
 #### 1. 菜单的配置
+
+一个菜单的添加配置需要以下这些内容的设置。
 
 editor/title：定义菜单出现在哪里
 when：定义菜单什么时候出现
@@ -182,11 +202,25 @@ https://code.visualstudio.com/api/references/contribution-points#contributes.men
 
 ### 五、快捷键
 
-设置的快捷键会出现在VS Code的 首选项-键盘快捷键设置界面。
+设置的快捷键会出现在VS Code的首选项-键盘快捷键设置界面。
+
+```javascript
+"keybindings": [
+      {
+        "command": "extension.sayHello",
+        "key": "ctrl+f",
+        "mac": "cmd+f10",
+        "when": "editorTextFocus"
+      },
+      //...
+]
+```
 
 
 
 ### 六、语言
+
+语言类的API：
 
 1. vscode.languages.registerDefinitionProvider 跳转到定义
 2. vscode.languages.registerHoverProvider 悬停提示
@@ -198,26 +232,55 @@ https://code.visualstudio.com/api/references/contribution-points#contributes.men
 ### 七、Webview
 
 1. 定义和Demo
-vscode.window.createWebviewPanel
+    vscode.window.createWebviewPanel
+
 2. 什么时候用Webview
-    官方建议谨慎使用。Web视图占用大量资源，并且设计不佳的网页容易让人感到不适。
+    官方建议谨慎使用。因为Web视图占用大量资源，并且设计不佳的网页容易让人感到诡异，些许不适。
+    
 3. 开发
     （1）加载本地资源
     出于安全考虑，Webview默认无法直接访问本地资源。要使用vscode-resource:协议（类似file:）。
     （2）主题适配 vscode-light / vscode-dark / vscode-high-contrast
     （3）消息通信 
     acquireVsCodeApi()返回极简版vscode对象。
+    
     https://code.visualstudio.com/docs/extensions/webview
 
 
 
 ### 八、代码段
 
+新增一个代码段需要设置以下内容。
+
 for循环：代码片段的名称
 prefix：输入什么单词会触发代码片段
 body：一个数组，存放代码片段的内容，每一行一个字符串
 description：代码片段的描述
 ${1: xxx}：占位符，数字表示光标聚焦的顺序。1表示默认光标落在这里，按下回车或者tab跳到2的位置，以此类推。xxx表示此位置的默认值，可省略，比如直接写$5。
+
+```javascript
+"snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      }
+]
+```
+
+```javascript
+//./snippets/javascript.json
+{
+    "for循环": {
+        "prefix": "for",
+        "body": [
+          "for (const ${2:item} of ${1:array}) {",
+          "\t$3",
+          "}"
+        ],
+        "description": "for循环"
+    }
+}
+```
 
 
 
@@ -246,7 +309,7 @@ vscode.workspace.getConfiguration().update('vscodePluginDemo.yourName', ‘lying
 3. 原窗口的开发者控制台
     插件相关信息不多。打开方式：帮助 → 切换开发人员工具
 
-4. 扩展窗口的开发者控制台
+4. 扩展窗口的开发者控制台【注意】
     插件的所有信息（包括报错）在这里显示。打开方式：帮助 → 切换开发人员工具
 
 5. Webview控制台
@@ -310,6 +373,8 @@ vscode.workspace.getConfiguration().update('vscodePluginDemo.yourName', ‘lying
 
 ## VS Code插件市场
 
+VS Code有太多优秀的插件~
+
 - View In Browser
 
 - vscode-icons
@@ -326,4 +391,3 @@ vscode.workspace.getConfiguration().update('vscodePluginDemo.yourName', ‘lying
 
   https://blog.csdn.net/qq_41139830/article/details/85221330
   https://marketplace.visualstudio.com/VSCode
-

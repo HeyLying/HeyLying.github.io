@@ -1,11 +1,11 @@
 ---
 title: JavaScript类型转换
 date: 2019-05-11 17:59:17
-tags: javascript
+categories: JavaScript
 ---
 这张图，在我的手机里保存了很久。
-![](/images/js_transfer.jpg)
- 
+![](/images/3.jpg)
+
 之前也对类型转换进行过一番研究，然而，现在我又忘了……真是不用就容易忘记鸭！趁今天有空，再来复习一遍。简单的就不再叙述，以下仅再过一遍重点难点。
 <!-- more -->
 
@@ -21,10 +21,11 @@ Symbol
 > Symbol 是 ES6 引入了一种新的原始数据类型，表示独一无二的值。
 
 - 引用数据类型
-Object
-Array
-Function
-<br/>
+  Object
+  Array
+  Function
+
+  
 
 ## 类型转换
 ### 一、原始值 转 原始值
@@ -57,10 +58,10 @@ Function
 - 总结：valueOf() → toString() → 报错
 
 #### 补充 toString() 的转换规则
-![](/images/tostring.png)
+![](/images/5.png)
 
 #### 补充 valueof() 的转换规则
-![](/images/valueof.png)
+![](/images/6.png)
 
 ### 三、 == 运算符的转换
 - null == undefined
@@ -126,7 +127,8 @@ js数字运算中存在精度缺失的问题。在0.1 + 0.2这个式子中，0.1
 
 #### 还不确定各个类型怎么转？
 有张表可参考：
-![](/images/alldatatype_transfer.png)
+![](/images/1.png)
 
 比如可以清晰地看到：
+
 - 数组[1~9]转换为数字1~9。

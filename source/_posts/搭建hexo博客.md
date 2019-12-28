@@ -1,7 +1,7 @@
 ---
 title: 搭建hexo博客
 date: 2019-03-07 19:37:10
-tags: 入门
+categories: 工具
 ---
 平时查资料，看了那么多页面，发现好多博客底部都标识着“Hexo”，比如[网易考拉前端团队](http://blog.kaolafed.com/)。知道 Hexo 是一个博客框架。但一直没入坑。
 
@@ -9,7 +9,7 @@ tags: 入门
 <!-- more -->
 
 直到这两天在掘金看到一篇文章，大意说的是作者一开始也是和我这样想，但是自从尝试了向外总结，发现收获远远大于过往。我忘了他怎么说的了，总之：
-![](/images/sticker-heart.jpg) 
+![](/images/4.jpg) 
 
 怎么说呢，非常赞同在微博上看到的这句话：对表达怀有羞耻感，是成长最大的敌人。这也是我的不足之处。
 
@@ -41,7 +41,8 @@ $ hexo server
 ## 关联Github
 ### 1. Github 创建一个新的 repositories。
 每个账号只能有一个仓库来放个人主页，而且仓库的名称必须是：Github账号.github.io，这是特殊的命名规定。
-![](https://i.imgur.com/G91wiJ6.png)
+
+![](/images/9.png) 
 
 部署到 Github 的原理
 （1）xxx.github.io 这个仓库的 master 里的 html 文件可以直接通过网址 Github账号.github.io 访问。
@@ -135,7 +136,7 @@ git push
 ```
 
 刷新Github，现在分支的内容为：
-![](/images/hexobranch.png) 
+![](/images/2.png) 
 
 ok，然后现在回到家中，将分支克隆到本地。
 ```
