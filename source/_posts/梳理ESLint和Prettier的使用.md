@@ -6,7 +6,13 @@ categories: 工具
 
 对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。
 
-前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法 `"prettier.eslintIntegration": true,` 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只能硬着头皮去解决。正好趁这次机会，理清了它俩。
+前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法：
+
+```javascript
+"prettier.eslintIntegration": true
+```
+
+提示deprecated。没办法，忍受不了编辑器里的波浪线，我只能硬着头皮去解决。正好趁这次机会，理清了它俩。
 
 我的问题：去掉了这个语法，现在在项目里，要如何怎么配合使用ESLint和Prettier，才是合适并且比较规范的？
 
