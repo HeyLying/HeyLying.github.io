@@ -8,7 +8,7 @@ subtitle: 我今天学习了吗？
 description: 博客
 keywords: 博客
 author: Lying
-language: zh-Hans
+language: zh-CN
 timezone: UTC
 
 # URL
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: hexo-theme-next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
