@@ -1,7 +1,7 @@
 ---
 title: 二叉树与《学习JavaScript数据结构与算法》
 date: 2020-02-03 15:44:25
-tags: 算法
+categories: 算法
 ---
 
 
