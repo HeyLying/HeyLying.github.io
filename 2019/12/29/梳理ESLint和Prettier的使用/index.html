@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-lying.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-lying.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-lying.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://heylying.github.io').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。 前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法： 1&quot;prettier.eslintIntegration&quot;: true 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梳理ESLint和Prettier的使用">
+<meta property="og:url" content="http://heylying.github.io/2019/12/29/梳理ESLint和Prettier的使用/index.html">
+<meta property="og:site_name" content="我在WEB前后左右端">
+<meta property="og:description" content="对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。 前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法： 1&quot;prettier.eslintIntegration&quot;: true 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://heylying.github.io/images/10.png">
+<meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="梳理ESLint和Prettier的使用">
+<meta name="twitter:description" content="对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。 前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法： 1&quot;prettier.eslintIntegration&quot;: true 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只">
+<meta name="twitter:image" content="http://heylying.github.io/images/10.png">
+
+<link rel="canonical" href="http://heylying.github.io/2019/12/29/梳理ESLint和Prettier的使用/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>梳理ESLint和Prettier的使用 | 我在WEB前后左右端</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我在WEB前后左右端</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我今天学习了吗？</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://heylying.github.io/2019/12/29/梳理ESLint和Prettier的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lying">
+      <meta itemprop="description" content="博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在WEB前后左右端">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          梳理ESLint和Prettier的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-28 21:13:17" itemprop="dateCreated datePublished" datetime="2019-12-28T21:13:17Z">2019-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-14 09:10:00" itemprop="dateModified" datetime="2020-06-14T09:10:00Z">2020-06-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。</p>
+<p>前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"prettier.eslintIntegration"</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>提示deprecated。没办法，忍受不了编辑器里的波浪线，我只能硬着头皮去解决。正好趁这次机会，理清了它俩。</p>
+<p>我的问题：去掉了这个语法，现在在项目里，要如何怎么配合使用ESLint和Prettier，才是合适并且比较规范的？</p>
+<a id="more"></a>
+<p><br></p>
+<p><strong>Linter和Prettier的区别</strong></p>
+<p>ESLint、TSLint等统称为Linter。所以首先，我们先搞清楚Linter和Prettier的区别。</p>
+<p>在格式化代码方面， Prettier确实和ESLint等有重叠，但它们的侧重点不同。</p>
+<p>首先，梳理一遍代码质量和格式的区别。</p>
+<ul>
+<li>代码质量问题指的是：未使用变量、三等号、全局变量声明等问题，聚焦于代码的内容。</li>
+<li>代码格式问题指的是：单行代码长度、tab长度、空格、逗号表达式等问题，聚焦于代码的表现。</li>
+</ul>
+<p>ESLint侧重代码质量，Prettier侧重代码格式，它们的具体区别如下。</p>
+<ul>
+<li>ESLint的主要工作是检查代码质量并给出提示，它可以检测出项目代码中潜在的问题，比如使用了某个变量却忘记了定义。它也提供一些格式化功能，但涉及范围很有限。</li>
+<li>Prettier全身心投入在格式化代码方面，格式化功能强大得多，能够统一你或者你的团队的代码风格，但不能提示变量未定义之类。</li>
+</ul>
+<p>参考资料：<a href="https://github.com/prettier/prettier-ESLint/issues/101#issuecomment-313233479" target="_blank" rel="noopener">https://github.com/prettier/prettier-ESLint/issues/101#issuecomment-313233479</a></p>
+<p><br></p>
+<p><strong>Linter和Prettier配合使用</strong></p>
+<p>为什么要两者配合使用？</p>
+<p>如果觉得ESLint提供的格式化代码够用了，也可以不使用Prettier。但总体来说，Prettier的格式化还是覆盖更加全面。</p>
+<p>ESLint和Prettier相互合作的时候会有一些问题，对于他们交集的格式化部分规则，ESLint和Prettier格式化后的代码格可能会式不一致。这样一来，导致的问题是：当你用Prettier格式化代码后再用ESLint去检测，会出现一些因为格式化导致的warning。这个时候有两个解决方案：</p>
+<ul>
+<li>运行Prettier之后，再使用ESLint –fix格式化一遍，这样把冲突的部分以ESLint的格式为标准覆盖掉，剩下的 warning就都是代码质量问题了。</li>
+<li>在配置ESLint的校验规则时候把和Prettier冲突的规则设置为disable，然后再使用Prettier的规则作为校验规则。那么使用Prettier格式化后，使用ESLint校验就不会出现对前者的warning。</li>
+</ul>
+<p>专业的问题交给专业的人做，参考官方文档和网上教程，我选择了后者。主要的设置步骤如下。</p>
+<ul>
+<li>关闭ESLint的样式部分的规则。</li>
+<li>将Prettier集成到ESLint的工作流中。</li>
+</ul>
+<p><br>Prettier提供了一些与ESLint配合使用的工具或插件，有好几个，查了资料才搞清其中区别。</p>
+<p>参考网上资料：</p>
+<p><img src="/images/10.png" alt></p>
+<p><br></p>
+<p><strong>实现上述步骤的具体方案：使用eslint-config-prettier 和eslint-plugin-prettier</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D prettier eslint-plugin-prettier eslint-config-prettier</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// .eslintrc.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  extends: [</span><br><span class="line">    // 各种你需要继承的配置列在前面</span><br><span class="line">    &apos;airbnb&apos;</span><br><span class="line">    &apos;plugin:vue/recommended&apos;,</span><br><span class="line">    // prettier 规则列在最后</span><br><span class="line">    &apos;plugin:prettier/recommended&apos;,</span><br><span class="line">    &apos;prettier/vue&apos;,</span><br><span class="line">  ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<p><a href="https://prettier.io/docs/en/integrating-with-linters.html" target="_blank" rel="noopener">https://prettier.io/docs/en/integrating-with-linters.html</a></p>
+<p><a href="https://www.meteorlxy.cn/posts/2019/08/05/understand-and-use-prettier.html" target="_blank" rel="noopener">https://www.meteorlxy.cn/posts/2019/08/05/understand-and-use-prettier.html</a></p>
+<p><a href="https://stackoverflow.com/questions/44690308/whats-the-difference-between-prettier-ESLint-ESLint-plugin-prettier-and-ESLint" target="_blank" rel="noopener">https://stackoverflow.com/questions/44690308/whats-the-difference-between-prettier-ESLint-ESLint-plugin-prettier-and-ESLint</a></p>
+<p><br></p>
+<p><strong>附录</strong></p>
+<p><strong>ESLint：airbnb-base和standard风格的简单对比区别</strong></p>
+<ol>
+<li><p>airbnb-base</p>
+<ul>
+<li>每个句末带分号</li>
+<li>function后不空格</li>
+<li>强制换行符</li>
+</ul>
+</li>
+<li><p>standard</p>
+<ul>
+<li>最后一个元素句末不带分号</li>
+<li>function后有空格</li>
+<li>无强制换行符</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/16/如何为VS-Code开发一个插件/" rel="prev" title="如何为VS Code开发一个插件">
+      <i class="fa fa-chevron-left"></i> 如何为VS Code开发一个插件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/03/二叉树与《学习JavaScript数据结构与算法》/" rel="next" title="二叉树与《学习JavaScript数据结构与算法》">
+      二叉树与《学习JavaScript数据结构与算法》 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lying</p>
+  <div class="site-description" itemprop="description">博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lying</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
