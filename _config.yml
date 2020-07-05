@@ -4,7 +4,7 @@
 
 # Site
 title: 我在WEB前后左右端
-subtitle: 我今天学习了吗？
+subtitle: <script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script>
 description: 博客
 keywords: 博客
 author: Lying
