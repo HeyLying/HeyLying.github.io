@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,15 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="这张图，在我的手机里保存了很久。 之前也对类型转换进行过一番研究，然而，现在我又忘了……真是不用就容易忘记鸭！趁今天有空，再来复习一遍。简单的就不再叙述，以下仅再过一遍重点难点。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/3.jpg">
-<meta property="og:image" content="http://heylying.github.io/images/5.png">
-<meta property="og:image" content="http://heylying.github.io/images/6.png">
-<meta property="og:image" content="http://heylying.github.io/images/1.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript类型转换">
 <meta name="twitter:description" content="这张图，在我的手机里保存了很久。 之前也对类型转换进行过一番研究，然而，现在我又忘了……真是不用就容易忘记鸭！趁今天有空，再来复习一遍。简单的就不再叙述，以下仅再过一遍重点难点。">
-<meta name="twitter:image" content="http://heylying.github.io/images/3.jpg">
 
 <link rel="canonical" href="http://heylying.github.io/2019/05/12/JavaScript类型转换/">
 
@@ -124,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -243,7 +240,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>这张图，在我的手机里保存了很久。<br><img src="/images/3.jpg" alt></p>
+        <p>这张图，在我的手机里保存了很久。<br><img data-src="/images/3.jpg" alt></p>
 <p>之前也对类型转换进行过一番研究，然而，现在我又忘了……真是不用就容易忘记鸭！趁今天有空，再来复习一遍。简单的就不再叙述，以下仅再过一遍重点难点。<br><a id="more"></a></p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
 <li><p>原始数据类型<br>Number<br>Boolean<br>Undefined<br>Null<br>String<br>Symbol</p>
@@ -270,8 +267,8 @@
 <li>类似对象转字符串，不过顺序反了过来。</li>
 <li>总结：valueOf() → toString() → 报错</li>
 </ul>
-<h4 id="补充-toString-的转换规则"><a href="#补充-toString-的转换规则" class="headerlink" title="补充 toString() 的转换规则"></a>补充 toString() 的转换规则</h4><p><img src="/images/5.png" alt></p>
-<h4 id="补充-valueof-的转换规则"><a href="#补充-valueof-的转换规则" class="headerlink" title="补充 valueof() 的转换规则"></a>补充 valueof() 的转换规则</h4><p><img src="/images/6.png" alt></p>
+<h4 id="补充-toString-的转换规则"><a href="#补充-toString-的转换规则" class="headerlink" title="补充 toString() 的转换规则"></a>补充 toString() 的转换规则</h4><p><img data-src="/images/5.png" alt></p>
+<h4 id="补充-valueof-的转换规则"><a href="#补充-valueof-的转换规则" class="headerlink" title="补充 valueof() 的转换规则"></a>补充 valueof() 的转换规则</h4><p><img data-src="/images/6.png" alt></p>
 <h3 id="三、-运算符的转换"><a href="#三、-运算符的转换" class="headerlink" title="三、 == 运算符的转换"></a>三、 == 运算符的转换</h3><ul>
 <li>null == undefined</li>
 <li>字符串 和 数字 的比较：字符串先自动转换成数字，再做比较。</li>
@@ -294,7 +291,7 @@
 <p>=代码块 + []<br>=+[]<br>= 0</p>
 <h4 id="例子五"><a href="#例子五" class="headerlink" title="例子五"></a>例子五</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]+&#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>= “” + [object object]<br>= “[object object]” </p>
-<h4 id="还不确定各个类型怎么转？"><a href="#还不确定各个类型怎么转？" class="headerlink" title="还不确定各个类型怎么转？"></a>还不确定各个类型怎么转？</h4><p>有张表可参考：<br><img src="/images/1.png" alt></p>
+<h4 id="还不确定各个类型怎么转？"><a href="#还不确定各个类型怎么转？" class="headerlink" title="还不确定各个类型怎么转？"></a>还不确定各个类型怎么转？</h4><p>有张表可参考：<br><img data-src="/images/1.png" alt></p>
 <p>比如可以清晰地看到：</p>
 <ul>
 <li>数组[1~9]转换为数字1~9。</li>
@@ -394,13 +391,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -424,7 +421,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -462,7 +459,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

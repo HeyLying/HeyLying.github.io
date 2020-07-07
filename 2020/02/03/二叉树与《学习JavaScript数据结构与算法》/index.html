@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,12 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="因为新型冠状病毒，这个春节假期格外漫长。 最近看完了知乎推荐的《学习JavaScript数据结构与算法》。这本书写得比想象中好，我对书背后的其中一条读者评论非常赞同：  书中的例子写得很好，易于学习和实践。其教学方法也比一般的C/C++图书好得多。  大学那会学算法，教科书用的就是C写的，内容实在绕。相比之下，这本书就简单易懂多了。当然，有一点也不得不说，由于篇幅有限，后面几章内容多但不详尽，确实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/11.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二叉树与《学习JavaScript数据结构与算法》">
 <meta name="twitter:description" content="因为新型冠状病毒，这个春节假期格外漫长。 最近看完了知乎推荐的《学习JavaScript数据结构与算法》。这本书写得比想象中好，我对书背后的其中一条读者评论非常赞同：  书中的例子写得很好，易于学习和实践。其教学方法也比一般的C/C++图书好得多。  大学那会学算法，教科书用的就是C写的，内容实在绕。相比之下，这本书就简单易懂多了。当然，有一点也不得不说，由于篇幅有限，后面几章内容多但不详尽，确实">
-<meta name="twitter:image" content="http://heylying.github.io/images/11.png">
 
 <link rel="canonical" href="http://heylying.github.io/2020/02/03/二叉树与《学习JavaScript数据结构与算法》/">
 
@@ -121,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -249,7 +249,7 @@
 <p>这本书的第十章是介绍树，让我想起之前有次面试要求手写树相关的算法——不论什么时候，经典算法知识总是那么重要。</p>
 <p>结合本书内容，今天来复习树的知识点。另一方面也是提醒自己，总是要学习。</p>
 <a id="more"></a>
-<p><img src="/images/11.png" alt></p>
+<p><img data-src="/images/11.png" alt></p>
 <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>树：是一种非顺序数据结构。类似家谱与公司的组织架构。</p>
 <p>节点的深度：节点的深度取决于它的祖先节点的数量。</p>
 <p>树的高度：树的高度取决于所有节点深度的最大值。</p>
@@ -349,13 +349,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -379,7 +379,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -417,7 +417,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

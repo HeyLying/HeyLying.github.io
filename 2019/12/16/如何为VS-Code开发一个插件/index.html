@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,12 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="VS Code是一个出色的代码编辑器，但真正使它强大的是它可用的扩展（也称为插件）。 首先要说明一下，可能有些人喜欢用 Webstorm/Sublime等其他编辑器或IDE，甚至我之前写PHP业务，用过一阵Phpstorm——都没关系，没用过VS Code的人也肯定知道它。认识下VS Code插件，知道VS Code的插件怎么开发，依旧可以当作扩展自己技术见识。 VS Code作为一个轻量级代码编">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/7.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何为VS Code开发一个插件">
 <meta name="twitter:description" content="VS Code是一个出色的代码编辑器，但真正使它强大的是它可用的扩展（也称为插件）。 首先要说明一下，可能有些人喜欢用 Webstorm/Sublime等其他编辑器或IDE，甚至我之前写PHP业务，用过一阵Phpstorm——都没关系，没用过VS Code的人也肯定知道它。认识下VS Code插件，知道VS Code的插件怎么开发，依旧可以当作扩展自己技术见识。 VS Code作为一个轻量级代码编">
-<meta name="twitter:image" content="http://heylying.github.io/images/7.png">
 
 <link rel="canonical" href="http://heylying.github.io/2019/12/16/如何为VS-Code开发一个插件/">
 
@@ -121,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -264,7 +264,7 @@
 <li>其他（状态栏修改、通知提示……）</li>
 </ul>
 <p>这里有一点需要注意，开发出来的插件没法对VS Ccode本身界面作大篇幅的改动，只能顶部加一点，或侧边加一点。目的是引导扩展开发者保持UI的简洁和视觉风格的统一。毕竟用户的审美千种万种，太不可靠。</p>
-<h3 id="学习目录"><a href="#学习目录" class="headerlink" title="学习目录"></a>学习目录</h3><p><img src="/images/7.png" alt> </p>
+<h3 id="学习目录"><a href="#学习目录" class="headerlink" title="学习目录"></a>学习目录</h3><p><img data-src="/images/7.png" alt> </p>
 <h3 id="一、Hello-World"><a href="#一、Hello-World" class="headerlink" title="一、Hello World"></a>一、Hello World</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo generator-code</span><br><span class="line">yo code</span><br></pre></td></tr></table></figure>
 <p>运行yo命令，yeoman就会生成generator-code脚手架里配置的内容，它配了什么呢，里边是一个插件规范的目录结构，并且已经实现弹一个helloworld弹窗的功能。</p>
 <blockquote>
@@ -493,13 +493,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -523,7 +523,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -561,7 +561,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

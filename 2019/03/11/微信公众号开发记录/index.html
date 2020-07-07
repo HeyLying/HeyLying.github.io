@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,12 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="基础知识理清公众号配置的域名 业务域名设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。 网页授权域名指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。 JS接口安全域名该域名下请求的地址能使用微信的js接口。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/8.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信公众号开发记录">
 <meta name="twitter:description" content="基础知识理清公众号配置的域名 业务域名设置业务域名后，在微信内访问该域名下页面时，不会被重新排版。 网页授权域名指用户同意授权后，微信会把回调信息传到该域名下的某地址（code值）。 JS接口安全域名该域名下请求的地址能使用微信的js接口。">
-<meta name="twitter:image" content="http://heylying.github.io/images/8.png">
 
 <link rel="canonical" href="http://heylying.github.io/2019/03/11/微信公众号开发记录/">
 
@@ -121,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -296,7 +296,7 @@
 <li>借助gulp自动添加</li>
 <li>Android微信的缓存清理：<a href="http://debugx5.qq.com/" target="_blank" rel="noopener">http://debugx5.qq.com/</a></li>
 </ul>
-<h3 id="过期的临时二维码"><a href="#过期的临时二维码" class="headerlink" title="过期的临时二维码"></a>过期的临时二维码</h3><p>过期后，临时二维码将直接无法扫出东西。<br><img src="/images/8.png" alt> </p>
+<h3 id="过期的临时二维码"><a href="#过期的临时二维码" class="headerlink" title="过期的临时二维码"></a>过期的临时二维码</h3><p>过期后，临时二维码将直接无法扫出东西。<br><img data-src="/images/8.png" alt> </p>
 <h3 id="微信二维码的识别原理"><a href="#微信二维码的识别原理" class="headerlink" title="微信二维码的识别原理"></a>微信二维码的识别原理</h3><p>长按识别二维码，会先立刻截屏，启动二维码识别算法。<br><a href="https://mp.weixin.qq.com/s?__biz=NzA3OTQ2OTgw&amp;mid=205918916&amp;idx=1&amp;sn=d729ef70ea1e7fc50e649352a63a2564&amp;scene=1&amp;key=c76941211a49ab586ba4831f2f6fa42fbb2525460003fa8e19bc205b9b25facbf60da78977da071ddbc41a5be6a7b9fa&amp;ascene=0&amp;uin=NTE3ODg0NjE1&amp;devicetype=iMac%20MacBookPro12,1%20OSX%20OSX%2010.10.3%20build%2814D136%29&amp;version=11020012&amp;pass_ticket=WPa8XnvIzBrBOA6RHy2RMECcrsuN2QiksK8Y1Z/D3Odk49uIsXOex7EV2NXN9m5X" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=NzA3OTQ2OTgw&amp;mid=205918916&amp;idx=1&amp;sn=d729ef70ea1e7fc50e649352a63a2564&amp;scene=1&amp;key=c76941211a49ab586ba4831f2f6fa42fbb2525460003fa8e19bc205b9b25facbf60da78977da071ddbc41a5be6a7b9fa&amp;ascene=0&amp;uin=NTE3ODg0NjE1&amp;devicetype=iMac%20MacBookPro12,1%20OSX%20OSX%2010.10.3%20build%2814D136%29&amp;version=11020012&amp;pass_ticket=WPa8XnvIzBrBOA6RHy2RMECcrsuN2QiksK8Y1Z/D3Odk49uIsXOex7EV2NXN9m5X</a></p>
 <h2 id="接口细节"><a href="#接口细节" class="headerlink" title="接口细节"></a>接口细节</h2><h3 id="客服功能"><a href="#客服功能" class="headerlink" title="客服功能"></a>客服功能</h3><p>注意点：用户被客服接入以后，客服关闭会话以前，处于会话过程中时，用户发送的消息均会被直接转发至客服系统。当会话超过30分钟，则会自动关闭客服功能，所有消息回到我们服务器上来接收。</p>
 <h3 id="消息管理"><a href="#消息管理" class="headerlink" title="消息管理"></a>消息管理</h3><p>被动回复</p>
@@ -408,13 +408,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -438,7 +438,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -476,7 +476,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

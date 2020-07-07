@@ -1,0 +1,77 @@
+<h1 id="Lazy-Load-Remastered"><a href="#Lazy-Load-Remastered" class="headerlink" title="Lazy Load Remastered"></a>Lazy Load Remastered</h1><p>Lazy Load delays loading of images in long web pages. Images outside of viewport will not be loaded before user scrolls to them. This is opposite of image preloading.</p>
+<p>This is a modern vanilla JavaScript version of the original <a href="https://github.com/tuupola/jquery_lazyload">Lazy Load</a> plugin. It uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a> to observe when the image enters the browsers viewport. Original code was inspired by <a href="https://yuilibrary.com/yui/docs/imageloader/">YUI ImageLoader</a> utility by Matt Mlinac. New version loans heavily from a <a href="https://deanhume.com/Home/BlogPost/lazy-loading-images-using-intersection-observer/10163">blog post</a> by Dean Hume.</p>
+<h2 id="Basic-Usage"><a href="#Basic-Usage" class="headerlink" title="Basic Usage"></a>Basic Usage</h2><p>By default Lazy Load assumes the URL of the original high resolution image can be found in <code>data-src</code> attribute. You can also include an optional low resolution placeholder in the <code>src</code> attribute.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+
+<span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span> <span class="attr">data-src</span>=<span class="string">"img/example.jpg"</span> <span class="attr">width</span>=<span class="string">"765"</span> <span class="attr">height</span>=<span class="string">"574"</span> /&gt;</span>
+<span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span> <span class="attr">src</span>=<span class="string">"img/example-thumb.jpg"</span> <span class="attr">data-src</span>=<span class="string">"img/example.jpg"</span> <span class="attr">width</span>=<span class="string">"765"</span> <span class="attr">height</span>=<span class="string">"574"</span> /&gt;</span>
+</code></pre>
+<p>With the HTML in place you can then initialize the plugin using the factory method. If you do not pass any settings or image elements it will lazyload all images with class <code>lazyload</code>.</p>
+<pre><code class="js">lazyload();
+</code></pre>
+<p>If you prefer you can explicitly pass the image elements to the factory. Use this for example if you use different class name.</p>
+<pre><code class="js"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">".branwdo"</span>);
+lazyload(images);
+</code></pre>
+<p>If you prefer you can also use the plain old constructor.</p>
+<pre><code class="js"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">".branwdo"</span>);
+<span class="keyword">new</span> LazyLoad(images);
+</code></pre>
+<p>The core IntersectionObserver can be configured by passing an additional argument</p>
+<pre><code class="js"><span class="keyword">new</span> LazyLoad(images, {
+     root: <span class="literal">null</span>,
+     rootMargin: <span class="string">"0px"</span>,
+     threshold: <span class="number">0</span>
+});
+</code></pre>
+<h2 id="Additional-API"><a href="#Additional-API" class="headerlink" title="Additional API"></a>Additional API</h2><p>To use the additional API you need to assign the plugin instance to a variable.</p>
+<pre><code class="js"><span class="keyword">let</span> lazy = lazyload();
+</code></pre>
+<p>To force loading of all images use <code>loadimages()</code>.</p>
+<pre><code class="js">lazy-&gt;loadImages();
+</code></pre>
+<p>To destroy the plugin and stop lazyloading use <code>destroy()</code>.</p>
+<pre><code class="js">lazy-&gt;destroy();
+</code></pre>
+<p>Note that <code>destroy()</code> does not load the out of viewport images. If you also<br>want to load the images use <code>loadAndDestroy()</code>.</p>
+<pre><code class="js">lazy-&gt;loadAndDestroy();
+</code></pre>
+<p>Additional API is not avalaible with the jQuery wrapper.</p>
+<h2 id="jQuery-Wrapper"><a href="#jQuery-Wrapper" class="headerlink" title="jQuery Wrapper"></a>jQuery Wrapper</h2><p>If you use jQuery there is a wrapper which you can use with the familiar old syntax. Note that to provide BC it uses <code>data-original</code> by default. This should be a drop in replacement for the previous version of the plugin.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span> <span class="attr">data-original</span>=<span class="string">"img/example.jpg"</span> <span class="attr">width</span>=<span class="string">"765"</span> <span class="attr">height</span>=<span class="string">"574"</span>&gt;</span>
+<span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span> <span class="attr">src</span>=<span class="string">"img/example-thumb.jpg"</span> <span class="attr">data-original</span>=<span class="string">"img/example.jpg"</span> <span class="attr">width</span>=<span class="string">"765"</span> <span class="attr">height</span>=<span class="string">"574"</span>&gt;</span>
+</code></pre>
+<pre><code class="js">$(<span class="string">"img.lazyload"</span>).lazyload();
+</code></pre>
+<h2 id="Cookbook"><a href="#Cookbook" class="headerlink" title="Cookbook"></a>Cookbook</h2><h3 id="Blur-Up-Images"><a href="#Blur-Up-Images" class="headerlink" title="Blur Up Images"></a>Blur Up Images</h3><p>Low resolution placeholder ie. the “blur up” technique. You can see this in action <a href="https://appelsiini.net/2017/trilateration-with-n-points/">in this blog entry</a>. Scroll down to see blur up images.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span></span>
+<span class="tag">     <span class="attr">src</span>=<span class="string">"thumbnail.jpg"</span></span>
+<span class="tag">     <span class="attr">data-src</span>=<span class="string">"original.jpg"</span></span>
+<span class="tag">     <span class="attr">width</span>=<span class="string">"1024"</span> <span class="attr">height</span>=<span class="string">"768"</span> /&gt;</span>
+</code></pre>
+<pre><code class="html"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"lazyload"</span></span>
+<span class="tag">     <span class="attr">style</span>=<span class="string">"background-image: url('thumbnail.jpg')"</span></span>
+<span class="tag">     <span class="attr">data-src</span>=<span class="string">"original.jpg"</span> /&gt;</span>
+</code></pre>
+<h3 id="Responsive-Images"><a href="#Responsive-Images" class="headerlink" title="Responsive Images"></a>Responsive Images</h3><p>Lazyloaded <a href="https://www.smashingmagazine.com/2014/05/responsive-images-done-right-guide-picture-srcset/">Responsive images</a> are supported via <code>data-srcset</code>. If browser does not support <code>srcset</code> and there is no polyfill the image from <code>data-src</code> will be shown.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span></span>
+<span class="tag">     <span class="attr">src</span>=<span class="string">"thumbnail.jpg"</span></span>
+<span class="tag">     <span class="attr">data-src</span>=<span class="string">"large.jpg"</span></span>
+<span class="tag">     <span class="attr">data-srcset</span>=<span class="string">"small.jpg 480w, medium.jpg 640w, large.jpg 1024w"</span></span>
+<span class="tag">     <span class="attr">width</span>=<span class="string">"1024"</span> <span class="attr">height</span>=<span class="string">"768"</span> /&gt;</span>
+</code></pre>
+<pre><code class="html"><span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">"lazyload"</span></span>
+<span class="tag">     <span class="attr">src</span>=<span class="string">"thumbnail.jpg"</span></span>
+<span class="tag">     <span class="attr">data-src</span>=<span class="string">"normal.jpg"</span></span>
+<span class="tag">     <span class="attr">data-srcset</span>=<span class="string">"normal.jpg 1x, retina.jpg 2x"</span></span>
+<span class="tag">     <span class="attr">width</span>=<span class="string">"1024"</span> <span class="attr">height</span>=<span class="string">"768"</span> /&gt;</span>
+</code></pre>
+<h3 id="Inlined-Placeholder-Image"><a href="#Inlined-Placeholder-Image" class="headerlink" title="Inlined Placeholder Image"></a>Inlined Placeholder Image</h3><p>To reduce the amount of request you can use data uri images as the placeholder.</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="</span></span>
+<span class="tag">     <span class="attr">data-src</span>=<span class="string">"original.jpg"</span></span>
+<span class="tag">     <span class="attr">width</span>=<span class="string">"1024"</span> <span class="attr">height</span>=<span class="string">"768"</span> /&gt;</span>
+</code></pre>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>This is still work in progress. You can install beta version with yarn or npm.</p>
+<pre><code>$ yarn add lazyload
+$ npm install lazyload
+</code></pre><h1 id="License"><a href="#License" class="headerlink" title="License"></a>License</h1><p>All code licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>. All images licensed under <a href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>. In other words you are basically free to do whatever you want. Just don’t remove my name from the source.</p>

@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,14 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="平时查资料，看了那么多页面，发现好多博客底部都标识着“Hexo”，比如网易考拉前端团队。知道 Hexo 是一个博客框架。但一直没入坑。 我问自己，需要博客吗？日常有搭建自己的知识体系的习惯，但都写在印象笔记里，算上碎碎念和与业务相关的现也有累计百余篇，没有对外公开。之前在 W3Cfuns（现更名为：QDFuns） 写过几篇，但没坚持下去。一是花时间，二是我实在认为（也是事实），网上太多人比我写得好">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/4.jpg">
-<meta property="og:image" content="http://heylying.github.io/images/9.png">
-<meta property="og:image" content="http://heylying.github.io/images/2.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建hexo博客">
 <meta name="twitter:description" content="平时查资料，看了那么多页面，发现好多博客底部都标识着“Hexo”，比如网易考拉前端团队。知道 Hexo 是一个博客框架。但一直没入坑。 我问自己，需要博客吗？日常有搭建自己的知识体系的习惯，但都写在印象笔记里，算上碎碎念和与业务相关的现也有累计百余篇，没有对外公开。之前在 W3Cfuns（现更名为：QDFuns） 写过几篇，但没坚持下去。一是花时间，二是我实在认为（也是事实），网上太多人比我写得好">
-<meta name="twitter:image" content="http://heylying.github.io/images/4.jpg">
 
 <link rel="canonical" href="http://heylying.github.io/2019/03/08/搭建hexo博客/">
 
@@ -123,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -244,7 +242,7 @@
       
         <p>平时查资料，看了那么多页面，发现好多博客底部都标识着“Hexo”，比如<a href="http://blog.kaolafed.com/" target="_blank" rel="noopener">网易考拉前端团队</a>。知道 Hexo 是一个博客框架。但一直没入坑。</p>
 <p>我问自己，需要博客吗？日常有搭建自己的知识体系的习惯，但都写在印象笔记里，算上碎碎念和与业务相关的现也有累计百余篇，没有对外公开。之前在 <a href="http://www.w3cfuns.com/" target="_blank" rel="noopener">W3Cfuns（现更名为：QDFuns）</a> 写过几篇，但没坚持下去。一是花时间，二是我实在认为（也是事实），网上太多人比我写得好，我再写有什么意义呢？<br><a id="more"></a></p>
-<p>直到这两天在掘金看到一篇文章，大意说的是作者一开始也是和我这样想，但是自从尝试了向外总结，发现收获远远大于过往。我忘了他怎么说的了，总之：<br><img src="/images/4.jpg" alt> </p>
+<p>直到这两天在掘金看到一篇文章，大意说的是作者一开始也是和我这样想，但是自从尝试了向外总结，发现收获远远大于过往。我忘了他怎么说的了，总之：<br><img data-src="/images/4.jpg" alt> </p>
 <p>怎么说呢，非常赞同在微博上看到的这句话：对表达怀有羞耻感，是成长最大的敌人。这也是我的不足之处。</p>
 <p>第一篇总结送给 <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo</a> 。</p>
 <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>在电脑中已经安装好 Node.js 和 Git。此部分不作过多介绍。</p>
@@ -252,7 +250,7 @@
 <h2 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h2><p>先创建一个文件夹，或等会使用命令创建文件夹都行。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure></p>
 <p>运行程序，在浏览器中访问本地 localhost:4000 即可看到博客已经搭建成功。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure></p>
 <h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-Github-创建一个新的-repositories。"><a href="#1-Github-创建一个新的-repositories。" class="headerlink" title="1. Github 创建一个新的 repositories。"></a>1. Github 创建一个新的 repositories。</h3><p>每个账号只能有一个仓库来放个人主页，而且仓库的名称必须是：Github账号.github.io，这是特殊的命名规定。</p>
-<p><img src="/images/9.png" alt> </p>
+<p><img data-src="/images/9.png" alt> </p>
 <p>部署到 Github 的原理<br>（1）xxx.github.io 这个仓库的 master 里的 html 文件可以直接通过网址 Github账号.github.io 访问。<br>（2）<code>hexo -g</code> 会生成一个静态网站，可以直接访问。</p>
 <h3 id="2-配置-config-yml"><a href="#2-配置-config-yml" class="headerlink" title="2. 配置/_config.yml"></a>2. 配置<code>/_config.yml</code></h3><p>搜索找到相应配置进行修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">url: http://xxx.github.io</span><br><span class="line"></span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/xxx/xxx.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>核心文件：<code>/_config.yml</code><br>每篇文章的开头内容支持设置网站的名称、描述、作者名称和主题的选择等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: xxx</span><br><span class="line">date: xxx</span><br><span class="line">tags: xxx</span><br></pre></td></tr></table></figure></p>
@@ -282,7 +280,7 @@
 <li>删除 source 里的内容， 将原项目完整复制放进来，也就是指公司电脑中的 hexo 源项目，此部分有两块内容需要剔除。<br>1.务必除去 node_modules（内容太大），建议删去 .deploy_git 和 public（两者会重新生成） 文件夹。<br>2.务必除去 themes 中的主题文件夹内的 .git 文件夹（如果有），否则到时 git push 到分支的 themes 文件夹为空。<br>之前我没删除这个 .git 就推送上去，结果远端的主题内容为空，于是我在本地重新下载一份主题，然后启动服务器，出现白屏或乱码各种情况……博客无法正常显示。删掉重新再推送，远端的 themes 文件夹有内容了，克隆到本地的博客显示也正常了。</li>
 </ul>
 <p>处理好拷贝，确认无误后，将其推送到远端的分支。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;add branch&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure></p>
-<p>刷新Github，现在分支的内容为：<br><img src="/images/2.png" alt> </p>
+<p>刷新Github，现在分支的内容为：<br><img data-src="/images/2.png" alt> </p>
 <p>ok，然后现在回到家中，将分支克隆到本地。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">cd xxx.github.io</span><br><span class="line">// 尤其确保：</span><br><span class="line">// npm install hexo-server --save</span><br><span class="line">// npm install hexo-deployer-git --save</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
 <p>现在，hexo 源项目即可在家中电脑运行起来了（localhost:4000），可以进行如上常规步骤，写作、生成和部署。</p>
 <h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><p>在 <code>/_config.yml</code> 中 hexo 部署生成后文件指定master分支。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/xxx/xxx.github.io.git</span><br><span class="line">  branch: master  // 指定master</span><br></pre></td></tr></table></figure></p>
@@ -381,13 +379,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -411,7 +409,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -449,7 +447,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 
 <script id="hexo-configurations">
@@ -26,11 +28,11 @@
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
@@ -54,12 +56,10 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。 前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法： 1&quot;prettier.eslintIntegration&quot;: true 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://heylying.github.io/images/10.png">
 <meta property="og:updated_time" content="2020-06-14T09:10:00.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="梳理ESLint和Prettier的使用">
 <meta name="twitter:description" content="对于ESLint和Prettier，之前知道是知道，但一直没理清这两个概念或者说是功能之间的关系，总是有些模糊——模糊倒也是对的，因为它俩确实有些交集。 前阵子VS Code的Prettier插件升级，导致我的VS Code里的setting.json相关语法： 1&quot;prettier.eslintIntegration&quot;: true 提示deprecated。没办法，忍受不了编辑器里的波浪线，我只">
-<meta name="twitter:image" content="http://heylying.github.io/images/10.png">
 
 <link rel="canonical" href="http://heylying.github.io/2019/12/29/梳理ESLint和Prettier的使用/">
 
@@ -121,7 +121,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">我今天学习了吗？</p>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
   </div>
 
   <div class="site-nav-toggle">
@@ -277,7 +277,7 @@
 </ul>
 <p><br>Prettier提供了一些与ESLint配合使用的工具或插件，有好几个，查了资料才搞清其中区别。</p>
 <p>参考网上资料：</p>
-<p><img src="/images/10.png" alt></p>
+<p><img data-src="/images/10.png" alt></p>
 <p><br></p>
 <p><strong>实现上述步骤的具体方案：使用eslint-config-prettier 和eslint-plugin-prettier</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D prettier eslint-plugin-prettier eslint-config-prettier</span><br></pre></td></tr></table></figure>
@@ -399,13 +399,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -429,7 +429,7 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
@@ -467,7 +467,10 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
