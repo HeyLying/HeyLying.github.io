@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-lying.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-lying.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-lying.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://heylying.github.io').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="已知：项目组里的产品采用 Electron + Vue 的前端技术栈。 最近发现一个奇怪的现象：在新功能页面中，当按下鼠标移动三维模型，若按住不放，把光标拖至 canvas 外释放鼠标，再将鼠标移回 canvas 内，此时即使不再次按下鼠标，也能移动模型，仿佛鼠标被粘连住一样。但在旧功能页面表现正常。 这部分 CesiumJS 代码是几乎沿用旧功能的，那怎么会出现不同表现形式呢？于是开展定位排查。">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定位Cesium丢失mouseup">
+<meta property="og:url" content="http://heylying.github.io/2020/08/19/定位Cesium丢失mouseup/index.html">
+<meta property="og:site_name" content="我在WEB前后左右端">
+<meta property="og:description" content="已知：项目组里的产品采用 Electron + Vue 的前端技术栈。 最近发现一个奇怪的现象：在新功能页面中，当按下鼠标移动三维模型，若按住不放，把光标拖至 canvas 外释放鼠标，再将鼠标移回 canvas 内，此时即使不再次按下鼠标，也能移动模型，仿佛鼠标被粘连住一样。但在旧功能页面表现正常。 这部分 CesiumJS 代码是几乎沿用旧功能的，那怎么会出现不同表现形式呢？于是开展定位排查。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-18T12:56:34.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="定位Cesium丢失mouseup">
+<meta name="twitter:description" content="已知：项目组里的产品采用 Electron + Vue 的前端技术栈。 最近发现一个奇怪的现象：在新功能页面中，当按下鼠标移动三维模型，若按住不放，把光标拖至 canvas 外释放鼠标，再将鼠标移回 canvas 内，此时即使不再次按下鼠标，也能移动模型，仿佛鼠标被粘连住一样。但在旧功能页面表现正常。 这部分 CesiumJS 代码是几乎沿用旧功能的，那怎么会出现不同表现形式呢？于是开展定位排查。">
+
+<link rel="canonical" href="http://heylying.github.io/2020/08/19/定位Cesium丢失mouseup/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>定位Cesium丢失mouseup | 我在WEB前后左右端</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我在WEB前后左右端</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle"><script type="text/javascript" src="https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=50&encode=js&fun=sync&source="></script><div id="hitokoto"><script>hitokoto()</script></p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://heylying.github.io/2020/08/19/定位Cesium丢失mouseup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lying">
+      <meta itemprop="description" content="博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在WEB前后左右端">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          定位Cesium丢失mouseup
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-18 20:46:39 / 修改时间：12:56:34" itemprop="dateCreated datePublished" datetime="2020-08-18T20:46:39Z">2020-08-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端框架/" itemprop="url" rel="index">
+                    <span itemprop="name">前端框架</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>已知：项目组里的产品采用 Electron + Vue 的前端技术栈。</p>
+<p>最近发现一个奇怪的现象：在新功能页面中，当按下鼠标移动三维模型，若按住不放，把光标拖至 canvas 外释放鼠标，再将鼠标移回 canvas 内，此时即使不再次按下鼠标，也能移动模型，仿佛鼠标被粘连住一样。但在旧功能页面表现正常。</p>
+<p>这部分 CesiumJS 代码是几乎沿用旧功能的，那怎么会出现不同表现形式呢？于是开展定位排查。</p>
+<p><br></p>
+<p><strong>思路一：是不是被其他业务逻辑影响了？</strong></p>
+<p>这点是首先想到的可能原因。但删除几乎所有其他代码后，问题仍存在。猜想错误。</p>
+<p><br></p>
+<p><strong>思路二：阅读源码的鼠标相关操作逻辑，找出此时是什么逻辑缺了？</strong></p>
+<p>结果发现当鼠标移出目标元素 canvas 后，handlePointerUp() 不再被执行，也就是这时没有监听到 mouseup 。我也写了简单的 demo 进行验证，这其实才是正常的。但是为什么旧功能这时能监听到 mouseup 呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  cesium.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">supportsPointerEvents</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!defined(hasPointerEvents)) &#123;</span><br><span class="line">            <span class="comment">//While navigator.pointerEnabled is deprecated in the W3C specification</span></span><br><span class="line">            <span class="comment">//we still need to use it if it exists in order to support browsers</span></span><br><span class="line">            <span class="comment">//that rely on it, such as the Windows WebBrowser control which defines</span></span><br><span class="line">            <span class="comment">//PointerEvent but sets navigator.pointerEnabled to false.</span></span><br><span class="line">            <span class="comment">//Firefox disabled because of https://github.com/AnalyticalGraphicsInc/cesium/issues/6372</span></span><br><span class="line">            hasPointerEvents = !isFirefox() &amp;&amp; <span class="keyword">typeof</span> PointerEvent !== <span class="string">'undefined'</span> &amp;&amp; (!defined(theNavigator.pointerEnabled) || theNavigator.pointerEnabled);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> hasPointerEvents;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">registerListener</span>(<span class="params">screenSpaceEventHandler, domType, element, callback</span>) </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">listener</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">            callback(screenSpaceEventHandler, e);</span><br><span class="line">        &#125;</span><br><span class="line">        element.addEventListener(domType, listener, <span class="literal">false</span>);</span><br><span class="line">        screenSpaceEventHandler._removalFunctions.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            element.removeEventListener(domType, listener, <span class="literal">false</span>);</span><br><span class="line">        &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">registerListeners</span>(<span class="params">screenSpaceEventHandler</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> element = screenSpaceEventHandler._element;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// some listeners may be registered on the document, so we still get events even after</span></span><br><span class="line">        <span class="comment">// leaving the bounds of element.</span></span><br><span class="line">        <span class="comment">// this is affected by the existence of an undocumented disableRootEvents property on element.</span></span><br><span class="line">        <span class="keyword">var</span> alternateElement = !defined(element.disableRootEvents) ? <span class="built_in">document</span> : element;</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">if</span> (FeatureDetection.supportsPointerEvents()) &#123;     <span class="comment">// 返回 true</span></span><br><span class="line">            registerListener(screenSpaceEventHandler, <span class="string">'pointerdown'</span>, element, handlePointerDown);</span><br><span class="line">            registerListener(screenSpaceEventHandler, <span class="string">'pointerup'</span>, element, handlePointerUp);</span><br><span class="line">            registerListener(screenSpaceEventHandler, <span class="string">'pointermove'</span>, element, handlePointerMove);</span><br><span class="line">            registerListener(screenSpaceEventHandler, <span class="string">'pointercancel'</span>, element, handlePointerUp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">        registerListener(screenSpaceEventHandler, <span class="string">'dblclick'</span>, element, handleDblClick);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// pointerdown</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePointerDown</span>(<span class="params">screenSpaceEventHandler, event</span>) </span>&#123;</span><br><span class="line">        event.target.setPointerCapture(event.pointerId);    <span class="comment">// 重点是这句</span></span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> (event.pointerType === <span class="string">'touch'</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> positions = screenSpaceEventHandler._positions;</span><br><span class="line">            <span class="keyword">var</span> identifier = event.pointerId;</span><br><span class="line">            positions.set(identifier, getPosition(screenSpaceEventHandler, event, <span class="keyword">new</span> Cartesian2()));</span><br><span class="line">            fireTouchEvents(screenSpaceEventHandler, event);</span><br><span class="line">            <span class="keyword">var</span> previousPositions = screenSpaceEventHandler._previousPositions;</span><br><span class="line">            previousPositions.set(identifier, Cartesian2.clone(positions.get(identifier)));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            handleMouseDown(screenSpaceEventHandler, event);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// pointerup 进不来</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePointerUp</span>(<span class="params">screenSpaceEventHandler, event</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (event.pointerType === <span class="string">'touch'</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> positions = screenSpaceEventHandler._positions;</span><br><span class="line"> </span><br><span class="line">            <span class="keyword">var</span> identifier = event.pointerId;</span><br><span class="line">            positions.remove(identifier);</span><br><span class="line"> </span><br><span class="line">            fireTouchEvents(screenSpaceEventHandler, event);</span><br><span class="line"> </span><br><span class="line">            <span class="keyword">var</span> previousPositions = screenSpaceEventHandler._previousPositions;</span><br><span class="line">            previousPositions.remove(identifier);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            handleMouseUp(screenSpaceEventHandler, event);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尝试网上搜索了很多资料，比如 electron + mouseup，cesium + mouseup 等等，也看到一些网友有相同的问题。但仍旧没替我回答：为什么旧功能表现正常？</p>
+<p><a href="https://blog.csdn.net/zheng12tian/article/details/83877391" target="_blank" rel="noopener">https://blog.csdn.net/zheng12tian/article/details/83877391</a></p>
+<p><a href="https://blog.csdn.net/isea533/article/details/71703442" target="_blank" rel="noopener">https://blog.csdn.net/isea533/article/details/71703442</a></p>
+<p>其实，官方 demo 也有一样的问题：</p>
+<p><a href="https://sandcastle.cesium.com/#c=tVbLbhs3FP0VQpuMgCkl+ZGkimzUkd04QNy4kZouqsKgOVcawhxyQHJku4E+IEiXXfUDuuyuTR/5HKdoV/2F3iFnrIddoIGr2Yi8r3Pu4UtTZshUwDkYskMUnJM+WFFk9KW3RaMG9/O+Vo4JBWbUiMmrkSJEqLF+rC+6ZMykhbg0WZDAndDqqUoEZ06bJW/KEn1uu8SZorboQiZ7SmTMwbV91nw0UiM1LpSvRbgBdB/pBGRUGBmTFMQkdc1AI3CnoJxwAiw1kOkp7EkZhTIYgR3m2gpfbKfur8+MwxFTm3RsdLYPEwNgozKBkI86G5u0/WBr637n4ziYtrZoe7u9+aB9vzIEFuW4BAowKbBEqMkc5Yi5lDr9As1M2aizuT0PzoXjKYa2ry1GS7lkSPOVVTkMAMdl6guMjirEOFSLfYk5hDYChWHLnQ8NUhlrk1marpT7vECljcLwSohat7rn3NQN1xBe+EusvroQLEmiVyFNsQyXt1y75ard1foLfLuLk8qdlXugS6qqBCuKxbIYIHAvFdmxuAA5EN8gaGfj4dzLLkrvgDOJno02fpVv5n9nlXChEWcYP4PkoO4vNIoRs7J5r25ecrPo+6rMq2g5uHBdMmrsCcMNGzs8MFVzKpwPPBP11o6a82YWt3ltI1iH0taAZbmEfeZYy0tgW2EpEaIaneCQTuTpNVj5bWODtF3PQ3PXvca3UH5idKES8hJSwSWshXiAqBCWZzf4fwj1Q+0IakAeMym1VmsUvUJYnt3g3vlQ7Y+EPCNDU/CzNXIvQTzG6vxO2g/OhFKQkH7K8Mw4/0asrQNWK3+CwzvR3keymvR1lhuwFvl7Imvh7qHmSLeo78b/tY+v/eU7YCrhzDo8NnjRDrWWp8wcgSqi6lYKd7R/RDBUrj7vA+QPapAzDgdTvNoOQ1BUXX6WgwLKGRbwlaoa1IJ7qvLC7XlBolqZiEvBz5qVOBzhNRKTehLde//2h7+++/GPb19f/fLm6rc3V7///Pe77+/FPoHW13/zUVBPzeJ/4Te8zIE+O/h0eLL//MvPQnN3JfX+3a9//vT2fyH1xXFJqRE3etZdStitl+8TkeXauPKRinBnOMCdgdvGtk5x2cFRbm29wr3WYmovEVMikp1b/n8RLpm16BkX0r9yo8Zur4XxN1Kl9s/78ykYyS7LsLSz+ywYKaW9Fk5vz3RhQ61U/gc" target="_blank" rel="noopener">https://sandcastle.cesium.com/#c=tVbLbhs3FP0VQpuMgCkl+ZGkimzUkd04QNy4kZouqsKgOVcawhxyQHJku4E+IEiXXfUDuuyuTR/5HKdoV/2F3iFnrIddoIGr2Yi8r3Pu4UtTZshUwDkYskMUnJM+WFFk9KW3RaMG9/O+Vo4JBWbUiMmrkSJEqLF+rC+6ZMykhbg0WZDAndDqqUoEZ06bJW/KEn1uu8SZorboQiZ7SmTMwbV91nw0UiM1LpSvRbgBdB/pBGRUGBmTFMQkdc1AI3CnoJxwAiw1kOkp7EkZhTIYgR3m2gpfbKfur8+MwxFTm3RsdLYPEwNgozKBkI86G5u0/WBr637n4ziYtrZoe7u9+aB9vzIEFuW4BAowKbBEqMkc5Yi5lDr9As1M2aizuT0PzoXjKYa2ry1GS7lkSPOVVTkMAMdl6guMjirEOFSLfYk5hDYChWHLnQ8NUhlrk1marpT7vECljcLwSohat7rn3NQN1xBe+EusvroQLEmiVyFNsQyXt1y75ard1foLfLuLk8qdlXugS6qqBCuKxbIYIHAvFdmxuAA5EN8gaGfj4dzLLkrvgDOJno02fpVv5n9nlXChEWcYP4PkoO4vNIoRs7J5r25ecrPo+6rMq2g5uHBdMmrsCcMNGzs8MFVzKpwPPBP11o6a82YWt3ltI1iH0taAZbmEfeZYy0tgW2EpEaIaneCQTuTpNVj5bWODtF3PQ3PXvca3UH5idKES8hJSwSWshXiAqBCWZzf4fwj1Q+0IakAeMym1VmsUvUJYnt3g3vlQ7Y+EPCNDU/CzNXIvQTzG6vxO2g/OhFKQkH7K8Mw4/0asrQNWK3+CwzvR3keymvR1lhuwFvl7Imvh7qHmSLeo78b/tY+v/eU7YCrhzDo8NnjRDrWWp8wcgSqi6lYKd7R/RDBUrj7vA+QPapAzDgdTvNoOQ1BUXX6WgwLKGRbwlaoa1IJ7qvLC7XlBolqZiEvBz5qVOBzhNRKTehLde//2h7+++/GPb19f/fLm6rc3V7///Pe77+/FPoHW13/zUVBPzeJ/4Te8zIE+O/h0eLL//MvPQnN3JfX+3a9//vT2fyH1xXFJqRE3etZdStitl+8TkeXauPKRinBnOMCdgdvGtk5x2cFRbm29wr3WYmovEVMikp1b/n8RLpm16BkX0r9yo8Zur4XxN1Kl9s/78ykYyS7LsLSz+ywYKaW9Fk5vz3RhQ61U/gc</a></p>
+<p>又花了一些时间排查。</p>
+<p>原来，答案就在 handlePointDown() 里的这句<code>event.target.setPointerCapture(event.pointerId)</code>。<strong>setPointerCapture</strong> 可以确保一个元素持续地接收到一个 pointer 事件，即使这个事件的触发点已经移出了这个元素。自己平时确实很少使用这个 API。</p>
+<p>参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/setPointerCapture" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Element/setPointerCapture</a></p>
+<p><br></p>
+<p><strong>思路三：那为什么新功能页面也加了这句，就不生效呢？</strong></p>
+<p>经过测试，与 iFrame 相关。这说的通，因为官方 demo 里的 cesium 也是 iFrame 的形式嵌入。</p>
+<p>新功能是以 iFrame 的形式嵌入的。当子工程与父工程都不是简单的静态资源 html 页面形式，而是需要部署（涉及 webpack 打包等）时，setPointerCapture 在 chrome 不生效。</p>
+<p>没错，经实践发现，在 firefox 里，自己写的页面与官方 demo 都没有这个问题，mouseup 能被监听到，是正常的……</p>
+<p><br></p>
+<p>结论：该问题与浏览器的内部实现有一定关系。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/06/计算水平fov、垂直fov与对角线fov之间的转换/" rel="prev" title="计算水平fov、垂直fov与对角线fov之间的转换">
+      <i class="fa fa-chevron-left"></i> 计算水平fov、垂直fov与对角线fov之间的转换
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lying</p>
+  <div class="site-description" itemprop="description">博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lying</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
