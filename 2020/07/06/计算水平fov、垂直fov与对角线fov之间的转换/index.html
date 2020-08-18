@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="我在WEB前后左右端">
 <meta property="og:description" content="或许，不会一点摄影知识的切图仔不是合格的前端。  FOV的定义首先，什么是FOV？一句话概括：通俗来说，目标物体超过这个角就不会被收到镜头里。 FOV又称视场角，分为水平FOV（HFOV）、垂直FOV（VFOV）与对角线FOV（DFOV）。以下图片展示的是对角线与水平FOV。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-07T02:25:14.725Z">
+<meta property="og:updated_time" content="2020-08-18T12:08:19.922Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算水平fov、垂直fov与对角线fov之间的转换">
 <meta name="twitter:description" content="或许，不会一点摄影知识的切图仔不是合格的前端。  FOV的定义首先，什么是FOV？一句话概括：通俗来说，目标物体超过这个角就不会被收到镜头里。 FOV又称视场角，分为水平FOV（HFOV）、垂直FOV（VFOV）与对角线FOV（DFOV）。以下图片展示的是对角线与水平FOV。">
@@ -208,7 +208,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-07 02:25:14" itemprop="dateModified" datetime="2020-07-07T02:25:14Z">2020-07-07</time>
+                <time title="修改时间：2020-08-18 12:08:19" itemprop="dateModified" datetime="2020-08-18T12:08:19Z">2020-08-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,20 +300,13 @@
 <p>dy = Math.sqrt(Math.pow(2736, 2) + Math.pow(1824, 2)) ≈ 3288</p>
 <p><br></p>
 <p><strong>DFOV</strong></p>
-<p>= Math.atan(dy / dx) <em> 2 </em> 180 / Math.PI</p>
-<p>= Math.atan(3288 / 3666) <em> 2 </em> 180 / Math.PI</p>
-<p>≈ 83.7° （与官网提供非常接近）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Math.atan(dy / dx) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">= Math.atan(<span class="number">3288</span> / <span class="number">3666</span>) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">≈ <span class="number">83.7</span>° （与官网提供非常接近）</span><br></pre></td></tr></table></figure>
 <p><br></p>
 <p><strong>VFOV</strong></p>
-<p>= Math.atan(cy / dx) <em> 2 </em> 180 / Math.PI</p>
-<p>= Math.atan(1824 / 3666) <em> 2 </em> 180 / Math.PI</p>
-<p>≈ 53°</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Math.atan(cy / dx) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">= Math.atan(<span class="number">1824</span> / <span class="number">3666</span>) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">≈ <span class="number">53</span>°</span><br></pre></td></tr></table></figure>
 <p><br></p>
 <p><strong>HFOV</strong></p>
-<p>= Math.atan(cx / dx) <em> 2 </em> 180 / Math.PI</p>
-<p>= Math.atan(2736 / 3666) <em> 2 </em> 180 / Math.PI</p>
-<p>≈ 73°</p>
-
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Math.atan(cx / dx) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">= Math.atan(<span class="number">2736</span> / <span class="number">3666</span>) * <span class="number">2</span> * <span class="number">180</span> / Math.PI</span><br><span class="line">≈ <span class="number">73</span>°</span><br></pre></td></tr></table></figure>
     </div>
 
     
