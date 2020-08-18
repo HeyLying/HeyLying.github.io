@@ -59,28 +59,28 @@ dy = Math.sqrt(Math.pow(2736, 2) + Math.pow(1824, 2)) ≈ 3288
 
 **DFOV**
 
-= Math.atan(dy / dx) * 2 * 180 / Math.PI
-
+```powershell
+Math.atan(dy / dx) * 2 * 180 / Math.PI
 = Math.atan(3288 / 3666) * 2 * 180 / Math.PI
-
 ≈ 83.7° （与官网提供非常接近）
+```
 
 <br/>
 
 **VFOV**
 
-= Math.atan(cy / dx) * 2 * 180 / Math.PI
-
+```powershell
+Math.atan(cy / dx) * 2 * 180 / Math.PI
 = Math.atan(1824 / 3666) * 2 * 180 / Math.PI
-
 ≈ 53°
+```
 
 <br/>
 
 **HFOV**
 
-= Math.atan(cx / dx) * 2 * 180 / Math.PI
-
+```powershell
+Math.atan(cx / dx) * 2 * 180 / Math.PI
 = Math.atan(2736 / 3666) * 2 * 180 / Math.PI
-
 ≈ 73°
+```
